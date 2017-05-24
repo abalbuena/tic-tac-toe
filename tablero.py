@@ -14,8 +14,7 @@ class Tablero:
     def __init__(self):
         """carga el tablero"""
         self.generar_tablero()
-        #TODO: hacer algo;
-    
+
     def generar_tablero(self):
         """genera un nuevo tablero"""
         for fila in range(3):
@@ -24,7 +23,7 @@ class Tablero:
                 self.tabla[fila].append(index)
 
         return self.tabla
-    
+
     def buscar_ganador(self, jugada):
         """busca un ganador según su ficha"""
         combinaciones_posibles = self.combinaciones_para_jugada(jugada)
@@ -33,7 +32,7 @@ class Tablero:
             valores = [self.tabla[x][y] for (x, y) in combinacion_ganadora]
             if len(set(valores)) == 1:
                 return True
-        
+
         return False
 
     def combinaciones_para_jugada(self, jugada):
@@ -42,7 +41,7 @@ class Tablero:
         for item in self.combinaciones_ganadoras:
             if jugada in item:
                 combinaciones.append(item)
-        
+
         return combinaciones
 
     def __str__(self):
@@ -60,3 +59,6 @@ class Tablero:
                               self.tabla[1][0], self.tabla[1][1], self.tabla[1][2],
                               self.tabla[2][0], self.tabla[2][1], self.tabla[2][2])
         return tablero_string
+
+class Casilla:
+    def __init__(self, fila, columna):

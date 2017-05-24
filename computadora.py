@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Éste es el módulo que contiene los algoritmos de análisis de jugada"""
+
 class Computadora:
     """Genera jugadas en base al análisis del tablero."""
     def __init__(self):
@@ -21,3 +22,7 @@ class Jugador:
         """asigna el símbolo (X ó O) y un nombre para el."""
         self.nombre = nombre
         self.ficha = ficha
+
+    def jugar(self):
+        """jugar"""
+        pass
