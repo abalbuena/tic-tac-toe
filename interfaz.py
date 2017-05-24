@@ -14,7 +14,7 @@ class Interfaz(ABC):
         pass
 
     @abstractmethod
-    def mostrar_tablero(self):
+    def mostrar_tablero(self, tablero):
         """Interfaz del juego"""
         pass
 
@@ -29,10 +29,10 @@ class InterfazLineaComando(Interfaz):
     def menu_principal(self, opciones, callback):
         """imprime el menú principal y recibe la opción seleccionada"""
         print(self.saludo_inicial)
-        opciones_menu = InterfazLineaComando.ordenar_opciones(opciones)
+        opciones_menu = InterfazLineaComando.generar_opciones(opciones)
 
         for opcion in opciones_menu:
-            print(opcion + "\n") #imprime la opción más un saldo de línea.
+            print(str(opcion) + "\n") #imprime la opción más un saldo de línea.
 
         while True:
             try:
@@ -57,15 +57,15 @@ class InterfazLineaComando(Interfaz):
             datos_jugador.nombre = "anónimo"
 
         print("Seleccioná tu ficha: ")
-        opciones_texto = InterfazLineaComando.ordenar_opciones(opciones_fichas)
-        self.print_opciones(opciones_texto)
+        opciones = InterfazLineaComando.generar_opciones(opciones_fichas)
+        self.print_opciones(opciones)
         ficha_seleccionada = self.solicitar_opcion(opciones_fichas)
         datos_jugador["ficha"] = ficha_seleccionada
         return datos_jugador
 
-    def mostrar_tablero(self):
+    def mostrar_tablero(self, tablero):
         """muestra el estado del tablero"""
-        pass
+        print(str(tablero))
 
     def solicitar_opcion(self, opciones):
         """método genérico que solicita al usuario que seleccione una opción"""
@@ -84,19 +84,47 @@ class InterfazLineaComando(Interfaz):
                 continue
 
     @staticmethod
-    def ordenar_opciones(opciones):
+    def generar_opciones(opciones):
         """genera una lista tipo menú de opciones"""
-        opciones_string = []
+        opciones_interfaz = []
         for i, opcion in enumerate(opciones):
-            opciones_string.append("{0}) {1}".format(i, opcion['descripcion']))
+            opcion_interfaz = OpcionInterfaz(i, str(opcion), opcion)
+            opciones_interfaz.append(opcion_interfaz)
 
-        return opciones_string
+        return opciones_interfaz
 
     @staticmethod
     def print_opciones(opciones):
         """método genérico para imprimir opciones en pantalla"""
         for opcion in opciones:
-            print(opcion + "\n") #imprime la opción más un saldo de línea.
-    
-    def pedir_jugada(self, nombre):
-        print("Seleccioná la casilla a marcar: ")
+            print(str(opcion) + "\n") #imprime la opción más un salto de línea
+
+    def pedir_jugada(self):
+        """recibe la jugada del usuario"""
+        while True:
+            try:
+                casilla = int(input("Seleccioná la casilla a marcar: "))
+                if casilla in range(0, 9):
+                    return casilla
+                else:
+                    print("seleccioná una casilla entre 0 y 9")
+                    continue
+            except ValueError:
+                print("ingresá un valor numérico")
+                continue
+
+class OpcionInterfaz:
+    """estructura genérica para representar una opción en la interfaz"""
+    def __init__(self, indice, descripcion, valor):
+        """
+            genera una opcion para la interfaz
+            indice : numero que corresponde a la opcion
+            descripcion : descripcion del valor que representa
+            valor : valor que representa.
+        """
+        self.indice = indice
+        self.descripcion = descripcion
+        self.valor = valor
+
+    def __str__(self):
+        return "{0} - {1}".format(self.indice, self.descripcion)

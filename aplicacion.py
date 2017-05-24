@@ -3,18 +3,13 @@
 """Inicia la aplicación"""
 from interfaz import InterfazLineaComando
 from partida import Partida
-from tablero import Tablero
-from computadora import Jugador, Computadora
 
 class Application:
     """Maneja los controladores de partida, BD, etc."""
 
-    modos_juego = ({'codigo': "partida_un_jugador",
-                    'descripcion': "partida de un jugador"},
-                   {'codigo': "partida_dos_jugadores",
-                    'descripcion': "partida de dos jugadores"},
-                   {'codigo': "historial",
-                    'descripcion': "historial"})
+    opciones_menu_principal = ("partida de un jugador",
+                               "partida de dos jugadores",
+                               "historial")
 
     def __init__(self):
         """crea el tablero, y los jugadores, y el controlador de partida"""
@@ -24,15 +19,16 @@ class Application:
             """Maneja la opción seleccionada por el usuario en el menú
                principal"""
 
-            if opcion['codigo'] == "partida_un_jugador":
+            if self.opciones_menu_principal.index(opcion) == 0:
                 self.partida_un_jugador()
 
-        self.interfaz.menu_principal(self.modos_juego,
+        self.interfaz.menu_principal(self.opciones_menu_principal,
                                      manejar_opcion_menu_princial)
 
     def partida_un_jugador(self):
         """Inicializa una partida para un jugador"""
-        self.partida = Partida()
+        self.partida = Partida(self.interfaz)
+        self.partida.iniciar_partida()
         print("partida de un jugador")
 
     def partida_dos_jugadores(self):
