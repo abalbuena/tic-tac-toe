@@ -12,16 +12,10 @@ class Computadora:
         """analiza el tablero y retorna una jugada"""
         disponibles = tablero.casillas_disponibles()
         casilla_seleccionada = disponibles[0]
-        print(str(casilla_seleccionada.indice - 1))
-        return casilla_seleccionada.indice - 1
+        return casilla_seleccionada.indice
 
     def buscar_victoria(self, tablero):
         """test"""
-
-
-    def piedad(self, tablero):
-        """cambia el modo de juego durante una partida"""
-        pass
 
 class Jugador:
     """Jugador fisico, tiene datos del jugador para el registro"""

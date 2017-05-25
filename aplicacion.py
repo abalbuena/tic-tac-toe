@@ -40,5 +40,10 @@ class Application:
         """obtiene el historial de partidas recientes"""
         print("opción historial")
 
+    def salir(self):
+        """
+        Cierra la aplicación.
+        """
+        quit()
 if __name__ == "__main__":
-    app = Application()
+    Application()

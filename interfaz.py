@@ -29,6 +29,7 @@ class InterfazLineaComando(Interfaz):
     """Interfaz por línea de comandos"""
 
     saludo_inicial = ("TATETI Python \n")
+    fila = lambda fila, columna: '\033[' + str(fila) + str(columna) + 'H'
 
     def __init__(self):
         print("Interfaz inicializada")
@@ -71,8 +72,29 @@ class InterfazLineaComando(Interfaz):
 
     def mostrar_tablero(self, tablero):
         """muestra el estado del tablero"""
-        self.limpiar_pantalla()
-        print(str(tablero), end='', flush=True)
+        filas_pantalla = [InterfazLineaComando.fila(x, 5) for x in range(3, 12)]
+        print('\n')
+        print('\033[2;4H  TEST')
+
+        print(filas_pantalla[0] + "        |       |         ")
+        print(filas_pantalla[1] + "    {0}   |   {1}   |   {2}   ".format(
+            tablero.tabla(1),
+            tablero.tabla(2),
+            tablero.tabla(3)))
+
+        print(filas_pantalla[2] + "________|_______|________")
+        print(filas_pantalla[3] + "        |       |        ")
+        print(filas_pantalla[4] + "    {3}   |   {4}   |   {5}   ".format(
+            tablero.tabla(4),
+            tablero.tabla(5),
+            tablero.tabla(6)))
+        print(filas_pantalla[5] + "________|_______|_______")
+        print(filas_pantalla[6] + "        |       |       ")
+        print(filas_pantalla[7] + "    {6}   |   {7}   |   {8}   ".format(
+            tablero.tabla(7),
+            tablero.tabla(8),
+            tablero.tabla(9)))
+        print(filas_pantalla[8] + "        |       |       ")
 
     def notificacion(self, mensaje, limpiar_pantalla=False):
         """imprime el mensaje"""
@@ -88,7 +110,7 @@ class InterfazLineaComando(Interfaz):
         """método genérico que solicita al usuario que seleccione una opción"""
         while True:
             try:
-                opcion_index = int(input("Seleccioná una opción: "))
+                opcion_index = int(input("\033[12;5HSeleccioná una opción: "))
                 try:
                     opcion_seleccionada = opciones[opcion_index]
                     return opcion_seleccionada
@@ -120,10 +142,9 @@ class InterfazLineaComando(Interfaz):
         """recibe la jugada del usuario"""
         while True:
             try:
-                casilla = int(input("Seleccioná la casilla a marcar: "))
-                print(str(casilla))
+                casilla = int(input("\n Seleccioná la casilla a marcar: "))
                 if casilla in range(1, 10):
-                    return casilla - 1
+                    return casilla
                 else:
                     print("seleccioná una casilla entre 1 y 9")
                     continue

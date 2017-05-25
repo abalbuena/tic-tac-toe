@@ -37,8 +37,6 @@ class Partida():
         partida_terminada = False
         jugador = self.alternar_turno()
         while not partida_terminada:
-            jugador = self.alternar_turno()
-            print(self.tablero)
             if isinstance(jugador, Jugador):
                 casilla = self.interfaz.pedir_jugada()
                 jugada = Jugada(casilla, jugador.ficha)
@@ -49,8 +47,8 @@ class Partida():
                 jugada = Jugada(casilla, jugador.ficha)
                 self.tablero.marcar_casilla(jugada)
                 partida_terminada = self.tablero.buscar_ganador(jugada)
-
             self.interfaz.mostrar_tablero(self.tablero)
+            jugador = self.alternar_turno()
 
         self.interfaz.mostrar_tablero(self.tablero)
         print("partida terminada! ganador {0}".format(jugador.ficha))

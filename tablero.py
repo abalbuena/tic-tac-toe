@@ -1,7 +1,7 @@
 #combinaciones ganadoras
 class Tablero:
     """gestiona las casillas del juego"""
-    tabla = []
+    _tabla = []
 
     # combinaciones_ganadoras = (
     #     [[(x, y) for y in range(3)] for x in range(3)] + # combinaciones horizontales
@@ -23,11 +23,8 @@ class Tablero:
 
     def generar_tablero(self):
         """genera un nuevo tablero"""
-        self.tabla = []
         for codigo_casilla in range(1, 10):
-            self.tabla.append(Casilla(codigo_casilla))
-
-        return self.tabla
+            self._tabla.append(Casilla(codigo_casilla))
 
     def buscar_ganador(self, jugada):
         """busca un ganador según su ficha"""
@@ -35,7 +32,7 @@ class Tablero:
         print("\n " + str(combinaciones_posibles))
         for combinacion_ganadora in combinaciones_posibles:
             #obtiene las combinaciones ganadores para la casilla seleccionada.
-            valores = [str(self.tabla[x]) for x in combinacion_ganadora]
+            valores = [str(self._tabla[x]) for x in combinacion_ganadora]
             if len(set(valores)) == 1:
                 return True
 
@@ -52,23 +49,37 @@ class Tablero:
 
     def marcar_casilla(self, jugada):
         """marca una ficha en la casilla indicada"""
-        casilla_a_marcar = self.tabla[jugada.casilla]
-        print(str(jugada.casilla))
+        casilla_a_marcar = self.tabla(jugada.casilla)
+
         if not casilla_a_marcar.habilitada:
             return False
         else:
             casilla_a_marcar.valor = jugada.ficha
             casilla_a_marcar.habilitada = False
-            self.tabla[jugada.casilla] = casilla_a_marcar
+            self.tabla(jugada.casilla, casilla_a_marcar)
             return True
 
     def casillas_disponibles(self):
         """obtiene las casillas disponibles"""
         casillas_disponibles = []
-        for casilla in self.tabla:
+        for casilla in self._tabla:
             if casilla.habilitada:
                 casillas_disponibles.append(casilla)
         return casillas_disponibles
+
+    def tabla(self, indice, valor=None):
+        """
+            como en la interfaz se manejan casillas del 1 al 9
+            y a nivel de estructura el tablero va de 0 a 8,
+            se ajusta la difrencia entre el tablero del juego
+            y su estructura.
+            indice : indice de la casilla
+            valor: (opcional) permite asignar un valor a la casilla
+        """
+        if valor:
+            self._tabla[indice - 1] = valor
+
+        return self._tabla[indice - 1]
 
     def __str__(self):
         tablero_string = ("        |       |       \n"
@@ -79,15 +90,15 @@ class Tablero:
                           "________|_______|_______\n"
                           "        |       |       \n"
                           "    {6}   |   {7}   |   {8}   \n"
-                          "        |       |       ").format(str(self.tabla[0]),
-                                                             str(self.tabla[1]),
-                                                             str(self.tabla[2]),
-                                                             str(self.tabla[3]),
-                                                             str(self.tabla[4]),
-                                                             str(self.tabla[5]),
-                                                             str(self.tabla[6]),
-                                                             str(self.tabla[7]),
-                                                             str(self.tabla[8]))
+                          "        |       |       ").format(str(self.tabla(1)),
+                                                             str(self.tabla(2)),
+                                                             str(self.tabla(3)),
+                                                             str(self.tabla(4)),
+                                                             str(self.tabla(5)),
+                                                             str(self.tabla(6)),
+                                                             str(self.tabla(7)),
+                                                             str(self.tabla(8)),
+                                                             str(self.tabla(9)))
         return tablero_string
 
 class Casilla:
