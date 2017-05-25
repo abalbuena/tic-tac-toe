@@ -9,10 +9,13 @@ class Interfaz(ABC):
         """Menú principal de la aplicación"""
         pass
     @abstractmethod
-    def registrar_jugador(self, opciones_fichas):
-        """Permite al jugador ingresar sus datos."""
+    def registrar_jugador(self):
+        """implementar para permitir ingresar un nombre para los registros."""
         pass
 
+    @abstractmethod
+    def seleccionar_ficha(self, opciones_fichas):
+        """implementar para permitir al usuario seleccionar la ficha"""
     @abstractmethod
     def mostrar_tablero(self, tablero):
         """Interfaz del juego"""
@@ -49,19 +52,18 @@ class InterfazLineaComando(Interfaz):
                 print("ingresá un valor numérico!")
                 continue
 
-    def registrar_jugador(self, opciones_fichas):
+    def registrar_jugador(self):
         """Solicita al usuario un nobre para registrar en el historial."""
-        datos_jugador = {}
-        datos_jugador["nombre"] = input("Ingresá tu nombre: ")
-        if not datos_jugador["nombre"]:
-            datos_jugador.nombre = "anónimo"
+        nombre = input("Ingresá tu nombre: ")
+        return nombre
 
+    def seleccionar_ficha(self, opciones_fichas):
+        """presenta las fichas para que el usuario elija"""
         print("Seleccioná tu ficha: ")
         opciones = InterfazLineaComando.generar_opciones(opciones_fichas)
         self.print_opciones(opciones)
         ficha_seleccionada = self.solicitar_opcion(opciones_fichas)
-        datos_jugador["ficha"] = ficha_seleccionada
-        return datos_jugador
+        return ficha_seleccionada
 
     def mostrar_tablero(self, tablero):
         """muestra el estado del tablero"""

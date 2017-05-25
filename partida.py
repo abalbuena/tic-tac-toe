@@ -6,21 +6,30 @@ from tablero import Tablero, Jugada
 class Partida():
     """Controlador de partida para un jugador"""
     fichas = ["X", "O"]
+    tipos_partida = {"jugador_vs_computadora" : 0,
+                     "jugador_vs_jugador": 1}
 
-    def __init__(self, interfaz):
+    def __init__(self, interfaz, jugadores):
         """Inicializa una partida para un jugador"""
         self.interfaz = interfaz
-        datos_jugador = self.interfaz.registrar_jugador(self.fichas)
-        jugador = Jugador(datos_jugador["nombre"], datos_jugador["ficha"])
+        nombre_jugador = self.interfaz.registrar_jugador()
+        ficha_jugador = self.interfaz.seleccionar_ficha(self.fichas)
+        jugador = Jugador(nombre_jugador, ficha_jugador)
 
         if self.fichas.index(jugador.ficha) == 0:
-            ficha_computadora = self.fichas[1]
+            ficha_oponente = self.fichas[1]
         else:
-            ficha_computadora = self.fichas[0]
-        computadora = Computadora(ficha_computadora)
+            ficha_oponente = self.fichas[0]
+
+        if jugadores < 2:
+            jugador2 = Computadora(ficha_oponente)
+        else:
+            nombre_jugador = self.interfaz.registrar_jugador()
+            jugador2 = Jugador(nombre_jugador, ficha_oponente)
+
         self.tablero = Tablero()
         #inicializa un ciclo entre computadora y jugador.
-        self.jugadores = (jugador, computadora)
+        self.jugadores = (jugador, jugador2)
         self.turnos = cycle(self.jugadores)
 
     def iniciar_partida(self):

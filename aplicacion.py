@@ -21,19 +21,20 @@ class Application:
 
             if self.opciones_menu_principal.index(opcion) == 0:
                 self.partida_un_jugador()
-
+            elif self.opciones_menu_principal.index(opcion) == 1:
+                self.partida_dos_jugadores()
         self.interfaz.menu_principal(self.opciones_menu_principal,
                                      manejar_opcion_menu_princial)
 
     def partida_un_jugador(self):
         """Inicializa una partida para un jugador"""
-        self.partida = Partida(self.interfaz)
+        self.partida = Partida(self.interfaz, 1)
         self.partida.iniciar_partida()
-        print("partida de un jugador")
 
     def partida_dos_jugadores(self):
         """inicializa una partida para dos jugadores"""
-        print("partida para dos jugadores")
+        self.partida = Partida(self.interfaz, 2)
+        self.partida.iniciar_partida()
 
     def historial(self):
         """obtiene el historial de partidas recientes"""
