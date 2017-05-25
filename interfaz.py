@@ -1,5 +1,6 @@
 """Modulo de interfaz"""
 from abc import ABC, abstractmethod
+import os
 
 class Interfaz(ABC):
     """Esquema para las intefaces de la aplicación"""
@@ -20,6 +21,9 @@ class Interfaz(ABC):
     def mostrar_tablero(self, tablero):
         """Interfaz del juego"""
         pass
+    @abstractmethod
+    def notificacion(self, mensaje, limpiar_pantalla=False):
+        """implementar para notificar errores al usuario."""
 
 class InterfazLineaComando(Interfaz):
     """Interfaz por línea de comandos"""
@@ -67,7 +71,18 @@ class InterfazLineaComando(Interfaz):
 
     def mostrar_tablero(self, tablero):
         """muestra el estado del tablero"""
-        print(str(tablero))
+        self.limpiar_pantalla()
+        print(str(tablero), end='', flush=True)
+
+    def notificacion(self, mensaje, limpiar_pantalla=False):
+        """imprime el mensaje"""
+        if limpiar_pantalla:
+            self.limpiar_pantalla()
+        print(mensaje)
+
+    def limpiar_pantalla(self):
+        """limpia la pantalla"""
+        os.system('cls' if os.name == 'nt' else 'clear')
 
     def solicitar_opcion(self, opciones):
         """método genérico que solicita al usuario que seleccione una opción"""
