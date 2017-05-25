@@ -26,6 +26,7 @@ class Partida():
     def iniciar_partida(self):
         """inicializa la partida"""
         partida_terminada = False
+        jugador = self.alternar_turno()
         while not partida_terminada:
             jugador = self.alternar_turno()
             print(self.tablero)
@@ -35,9 +36,15 @@ class Partida():
                 self.tablero.marcar_casilla(jugada)
                 partida_terminada = self.tablero.buscar_ganador(jugada)
             elif isinstance(jugador, Computadora):
-                print("turno de la computadora")
+                casilla = jugador.jugar(self.tablero)
+                jugada = Jugada(casilla, jugador.ficha)
+                self.tablero.marcar_casilla(jugada)
+                partida_terminada = self.tablero.buscar_ganador(jugada)
 
             self.interfaz.mostrar_tablero(self.tablero)
+
+        self.interfaz.mostrar_tablero(self.tablero)
+        print("partida terminada! ganador {0}".format(jugador.ficha))
 
     def alternar_turno(self):
         """intercala los turnos entre los jugadores"""

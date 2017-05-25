@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
 """Éste es el módulo que contiene los algoritmos de análisis de jugada"""
-from tablero import Tablero
+
 class Computadora:
     """Genera jugadas en base al análisis del tablero."""
-    combinaciones_ganadoras = Tablero.combinaciones_ganadoras
+
     def __init__(self, ficha):
         """inicializa el jugador de la CPU"""
         self.ficha = ficha
 
     def jugar(self, tablero):
         """analiza el tablero y retorna una jugada"""
+        disponibles = tablero.casillas_disponibles()
+        casilla_seleccionada = disponibles[0]
+        print(str(casilla_seleccionada.indice - 1))
+        return casilla_seleccionada.indice - 1
 
     def buscar_victoria(self, tablero):
         """test"""

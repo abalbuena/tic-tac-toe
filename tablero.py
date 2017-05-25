@@ -24,7 +24,7 @@ class Tablero:
     def generar_tablero(self):
         """genera un nuevo tablero"""
         self.tabla = []
-        for codigo_casilla in range(9):
+        for codigo_casilla in range(1, 10):
             self.tabla.append(Casilla(codigo_casilla))
 
         return self.tabla
@@ -32,7 +32,7 @@ class Tablero:
     def buscar_ganador(self, jugada):
         """busca un ganador según su ficha"""
         combinaciones_posibles = self.combinaciones_para_jugada(jugada.casilla)
-
+        print("\n " + str(combinaciones_posibles))
         for combinacion_ganadora in combinaciones_posibles:
             #obtiene las combinaciones ganadores para la casilla seleccionada.
             valores = [str(self.tabla[x]) for x in combinacion_ganadora]
@@ -53,10 +53,13 @@ class Tablero:
     def marcar_casilla(self, jugada):
         """marca una ficha en la casilla indicada"""
         casilla_a_marcar = self.tabla[jugada.casilla]
+        print(str(jugada.casilla))
         if not casilla_a_marcar.habilitada:
             return False
         else:
             casilla_a_marcar.valor = jugada.ficha
+            casilla_a_marcar.habilitada = False
+            self.tabla[jugada.casilla] = casilla_a_marcar
             return True
 
     def casillas_disponibles(self):
@@ -66,7 +69,6 @@ class Tablero:
             if casilla.habilitada:
                 casillas_disponibles.append(casilla)
         return casillas_disponibles
-
 
     def __str__(self):
         tablero_string = ("        |       |       \n"

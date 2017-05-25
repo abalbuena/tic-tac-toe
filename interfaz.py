@@ -104,10 +104,11 @@ class InterfazLineaComando(Interfaz):
         while True:
             try:
                 casilla = int(input("Seleccioná la casilla a marcar: "))
-                if casilla in range(0, 9):
-                    return casilla
+                print(str(casilla))
+                if casilla in range(1, 10):
+                    return casilla - 1
                 else:
-                    print("seleccioná una casilla entre 0 y 9")
+                    print("seleccioná una casilla entre 1 y 9")
                     continue
             except ValueError:
                 print("ingresá un valor numérico")
